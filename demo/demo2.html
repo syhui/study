@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Title</title>
+    <style>
+      .box-out {
+        border: 3px solid black;
+        width: 80px;
+        height: 100px;
+        margin: 100px auto;
+        position: relative;
+        border-radius: 10px;
+      }
+
+      .inner,
+      .inner2 {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 80px;
+        height: 100px;
+        border-radius: 6px;
+        backface-visibility: hidden;
+        /* 不面对屏幕时不可见 */
+      }
+
+      .inner.move {
+        background-color: red;
+      }
+
+      .inner2 {
+        background-color: blue;
+        transform: rotateY(180deg);
+        -webkit-transform: rotateY(180deg);
+      }
+
+      .box-out {
+        animation: 3s move infinite;
+        transform-style: preserve-3d;
+      }
+      .test {
+        position: absolute;
+        animation: moveTo 5s linear;
+        width: 100px;
+      }
+      @keyframes moveTo {
+        0% {
+          right: 0;
+        }
+        50% {
+          right: 50%;
+        }
+        100% {
+          right: 100%;
+        }
+      }
+      @keyframes move {
+        0% {
+          transform: rotateY(0deg);
+        }
+        100% {
+          transform: rotateY(360deg);
+        }
+      }
+    </style>
+  </head>
+
+  <body style="width: 100%; position: relative">
+    <div class="box-out move">
+      <div class="inner"></div>
+      <div class="inner2"></div>
+    </div>
+    <div class="test">我是弹幕</div>
+  </body>
+  <script></script>
+</html>
