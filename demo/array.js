@@ -58,6 +58,32 @@ function flatDeep(arr) {
       }, [])
     : [arr]
 }
+//数组去重
+function removeRepeat1(arr) {
+  const res = []
+  const obj = {}
+  for (let i = 0; i < arr.length; i++) {
+    if (!obj[a[i]]) {
+      res.push(a[i])
+      obj[a[i]] = 1
+    }
+  }
+  return res
+}
+function removeRepeat2(arr) {
+  const res = []
+  for (let i = 0; i < arr.length; i++) {
+    if (res.indexOf[a[i]] === -1) {
+      res.push(a[i])
+    }
+  }
+  return res
+}
+function removeRepeat3(arr) {
+  return arr.filter((item, index) => {
+    return arr.indexOf(item) === index
+  })
+}
 // 斐波那契递归实现和dp实现
 
 function fibornacci1(n) {
@@ -118,25 +144,6 @@ function sum() {
   }
   return temp
 }
-// 并发请求限制
-function batchGet(arr, batchnum = 3, timeout = 3) {
-  let count = 0
-  return function () {
-    let times = Math.ceil(arr / batchnum)
-    let i = 0
-    while (i <= times) {
-      let fragment = arr.slice(count, batchnum * i - 1)
-      const promises = fragment.map((request) => {
-        return new Promise((reslove, reject) => {
-          reslove()
-        })
-      })
-
-      i++
-      count = batchnum * i
-    }
-  }
-}
 
 // 合并
 const a = [
@@ -145,9 +152,8 @@ const a = [
   ['m', 'n']
 ]
 
-
 function compose(nums) {
-  let concact =(a,b)=>{
+  let concact = (a, b) => {
     let arr = []
     for (let i = 0; i < a.length; i++) {
       for (let j = 0; j < b.length; j++) {
@@ -162,45 +168,44 @@ function compose(nums) {
 }
 
 function f(matrix) {
-   const result = [];
-   const len = matrix.length;
- function dfs(res, curr) {
-     if (res.length === len) {
-         result.push(res.join(''));
-           return;
-     }
-       for (let i = 0; i < matrix[curr].length; i++) {
-         res.push(matrix[curr][i]);
-              dfs(res, curr + 1);
-           res.pop();
-     }
- }
-   dfs([], 0);
-   return result;
+  const result = []
+  const len = matrix.length
+  function dfs(res, curr) {
+    if (res.length === len) {
+      result.push(res.join(''))
+      return
+    }
+    for (let i = 0; i < matrix[curr].length; i++) {
+      res.push(matrix[curr][i])
+      dfs(res, curr + 1)
+      res.pop()
+    }
+  }
+  dfs([], 0)
+  return result
 }
 
-
 // 最长回文数
-var longestPalindrome = function(s) {
-  const map = new Map();
-  for(let i = 0; i < s.length; i++){
-      map.set(s[i], (map.get(s[i]) || 0) + 1);
+var longestPalindrome = function (s) {
+  const map = new Map()
+  for (let i = 0; i < s.length; i++) {
+    map.set(s[i], (map.get(s[i]) || 0) + 1)
   }
-  let result = 0;
-  for(let value of map.values()){
-      result += Math.floor(value / 2) * 2;
+  let result = 0
+  for (let value of map.values()) {
+    result += Math.floor(value / 2) * 2
   }
-  return result !== s.length ? result + 1 : result;
-};
+  return result !== s.length ? result + 1 : result
+}
 
 // 最大子序和
 var maxSubArray = function (nums) {
-  const dp = [nums[0]];
+  const dp = [nums[0]]
   for (let i = 1; i < nums.length; ++i) {
-    dp[i] = nums[i];
+    dp[i] = nums[i]
     if (dp[i - 1] > 0) {
-      dp[i] += dp[i - 1];
+      dp[i] += dp[i - 1]
     }
   }
-  return Math.max(...dp);
-};
+  return Math.max(...dp)
+}

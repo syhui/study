@@ -66,7 +66,6 @@ function New(Fn) {
   return typeof ret === 'object' ? ret : obj
 }
 
-
 function deepClone(obj) {
   let copy = obj instanceof Array ? [] : {}
   for (k in obj) {
@@ -113,8 +112,6 @@ function debounce(fn, delay) {
     let arg = arguments
     if (timer) clearTimeout(timer)
     timer = setTimeout(() => {
-
-      
       fn.apply(context, arg)
     }, delay)
   }
@@ -167,7 +164,6 @@ function count(N) {
   }, 0)
 }
 
-
 function jsonp(url, funName, success) {
   let script = document.createElement('script')
   script.src = url
@@ -182,23 +178,32 @@ function jsonp(url, funName, success) {
 class RequestLimit {
   constructor(limit) {
     this.limit = limit
-    this.curr = 0
-    this.task = []
+    this.currentCount = 0
+    this.taskList = []
   }
-  async req(url) {
-    if (this.curr >= this.limit) {
-      await new Promise((resolve) => this.task.push(resolve))
-    }
-    this.curr++
-    try {
-      await url()
-    } catch (res) {
-      return Promise.reject(res)
-    } finally {
-      this.curr--
-      if (this.task.length) {
-        this.task.shift()()
+  executer(fn) {
+    return new Promise((resolve, reject) => {
+      const task = this.createTask(fn, resolve, reject)
+      if (this.currentCount >= this.limit) {
+        this.taskList.push(task)
+      } else {
+        task()
       }
+    })
+  }
+  createTask(fn, resolve, reject) {
+    return () => {
+      fn()
+        .then(resolve)
+        .catch(reject)
+        .finally(() => {
+          this.currentCount--
+          if (this.taskList.length > 0) {
+            let task = this.taskList.shift()
+            task()
+          }
+        })
+      this.currentCount++
     }
   }
 }
