@@ -43,47 +43,7 @@ function merge(nums1, m, nums2, n) {
     }
   }
 }
-// 数组降维
-Array.prototype.flat = function () {
-  this.toString()
-    .split(',')
-    .map((item) => {
-      return +item
-    })
-}
-function flatDeep(arr) {
-  return arr instanceof Array
-    ? arr.reduce((a, b) => {
-        return [...a, ...flatDeep(b)]
-      }, [])
-    : [arr]
-}
-//数组去重
-function removeRepeat1(arr) {
-  const res = []
-  const obj = {}
-  for (let i = 0; i < arr.length; i++) {
-    if (!obj[a[i]]) {
-      res.push(a[i])
-      obj[a[i]] = 1
-    }
-  }
-  return res
-}
-function removeRepeat2(arr) {
-  const res = []
-  for (let i = 0; i < arr.length; i++) {
-    if (res.indexOf[a[i]] === -1) {
-      res.push(a[i])
-    }
-  }
-  return res
-}
-function removeRepeat3(arr) {
-  return arr.filter((item, index) => {
-    return arr.indexOf(item) === index
-  })
-}
+
 // 斐波那契递归实现和dp实现
 
 function fibornacci1(n) {
@@ -114,20 +74,25 @@ function count(N) {
     return pre + a
   }, 0)
 }
-// 闭包
-const repeat = function (func, times, wait) {
-  let i = 0
+// 函数柯里化
+function createCurry(func, args) {
+  var arity = func.length
+  var args = args || []
+
   return function () {
-    let that = this
-    let arg = arguments
-    while (i < times) {
-      setTimeout(() => {
-        func.apply(that, arg)
-      }, wait * i)
-      i++
+    var _args = [].slice.call(arguments)
+    ;[].push.apply(_args, args)
+
+    // 如果参数个数小于最初的func.length，则递归调用，继续收集参数
+    if (_args.length < arity) {
+      return createCurry.call(this, func, _args)
     }
+
+    // 参数收集完毕，则执行func
+    return func.apply(this, _args)
   }
 }
+
 // 实现sum(1,2,3).sumof()  6
 //sum(1)(2)(3).sumof()  6
 // sum(1)(2,3)(1).sumof() 7
@@ -205,6 +170,21 @@ var maxSubArray = function (nums) {
     dp[i] = nums[i]
     if (dp[i - 1] > 0) {
       dp[i] += dp[i - 1]
+    }
+  }
+  return Math.max(...dp)
+}
+// 最大连续数
+var longestConsecutive = function (nums) {
+  const len = nums.length
+  if (len === 0) return 0
+  nums.sort((a, b) => a - b)
+  const dp = new Array(len).fill(1)
+  for (let i = 1; i < len; i++) {
+    if (nums[i - 1] + 1 == nums[i]) {
+      dp[i] = dp[i - 1] + 1
+    } else if (nums[i - 1] == nums[i]) {
+      dp[i] = dp[i - 1]
     }
   }
   return Math.max(...dp)
