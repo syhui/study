@@ -12,7 +12,7 @@ function mergeHead(head1, head2) {
   let node = preHead
 
   while (head1 && head2) {
-    if (head1 < head2) {
+    if (head1 <= head2) {
       node.next = head1
       head1 = head1.next
     } else if (head1 > head2) {
@@ -27,7 +27,7 @@ function mergeHead(head1, head2) {
 }
 
 /**
- * 删除链表的第n个节点*/
+ * 删除链表的倒数第n个节点*/
 
 function removeHead(head, n) {
   let node = head
@@ -44,6 +44,8 @@ function removeHead(head, n) {
   return head
 }
 
+/**
+ * 删除链表值为val个节点*/
 function removeHead(head, val) {
   let node = head
   if (node.val === val) return node.next

@@ -4,6 +4,7 @@ Array.prototype.my_reduce = function (fn, initValue) {
   for (let i = hasInitValue ? 0 : 1; i < this.length; i++) {
     result = fn(result, this[i], i, this)
   }
+  return result
 }
 
 Function.prototype.mycall = function (context) {
@@ -59,7 +60,7 @@ function instanceOf(left, right) {
 
 function New(Fn) {
   let obj = {}
-  let arg = Array.prototype.slice.call(arguments, 1)
+  let arg = Array.prototype.slice.call(arguments,1)
   obj.__proto__ = Fn.prototype
   obj.__proto__.constructor = Fn
   let ret = Fn.apply(obj, arg)
@@ -148,6 +149,7 @@ function throttle(fn, delay) {
     if (!timer) {
       timer = setTimeout(() => {
         fn.apply(context, arg)
+        clearTimeout(timer)
         timer = null
       })
     }
