@@ -103,7 +103,7 @@ class MyPromise {
             switch (this.status) {
                 case PENDING: // 如果当前是 pending 状态，将回调函数保存起来，等 status 改变后在执行
                     this.callbacks.push(
-                        {
+                         {
                             onResolved: value => hander(onResolved),
                             onRejected: reason => hander(onRejected)
                         });
@@ -197,7 +197,7 @@ class MyPromise {
         const resultList = Array(myPromises.length)
 
         //用来保存成功 promise 的数量
-        let resolvedCount = 0
+        let resultCount = 0
         return new MyPromise((resolve, reject) => {
             // 遍历获取每个Promise的结果
             myPromises.forEach((p, index) => {
@@ -206,16 +206,16 @@ class MyPromise {
                 //用 MyPromise.resolve 将其包装成一个promise对象
                 MyPromise.resolve(p).then(
                     (value) => {
-                        resolvedCount++
+                        resultCount++
                         resultList[index] = { status: 'fulfilled', value: value }
-                        if (resolvedCount === myPromises.length) {
+                        if (resultCount === myPromises.length) {
                             resolve(resultList)
                         }
                     },
                     (reason) => {
-                        resolvedCount++
+                        resultCount++
                         resultList[index] = { status: 'rejected', value: reason }
-                        if (resolvedCount === myPromises.length) {
+                        if (resultCount === myPromises.length) {
                             reject(resultList)
                         }
                     }

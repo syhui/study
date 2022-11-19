@@ -47,11 +47,11 @@ class EventBus {
     }
   }
   emit(event) {
-    // once删除会导致.this.events内fn前移，复制为一个新数组
+    // once删除会导致this.events内fn前移，复制为一个新数组
     let cbs = [...this.events[event]]
     if (cbs) {
       for (let i = 0; i < cbs.length; i++) {
-        cbs[i].apply(null, [...arguments].slice)
+        cbs[i].apply(null, [...arguments].slice(1))
       }
     }
   }

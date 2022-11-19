@@ -7,23 +7,20 @@ function mergeHead(head1, head2) {
   } else if (!head2) {
     return head1
   }
-
   let preHead = new ListNode(-1)
   let node = preHead
-
   while (head1 && head2) {
-    if (head1 <= head2) {
+    if (head1.val <= head2.val) {
       node.next = head1
       head1 = head1.next
-    } else if (head1 > head2) {
+    } else if (head1.val > head2.val) {
       node.next = head2
       head2 = head2.next
     }
     node = node.next
   }
-
   node.next = head1 || head2
-  return preHead
+  return preHead.next
 }
 
 /**
@@ -74,29 +71,34 @@ function reverseHead(head) {
   }
   return preHead
 }
+/**
+ * 回文链表*/
+var isPalindrome = function(head) {
+  if(!head) return true;
+  let s = '', p = head;
+  while(p) {
+      s += p.val;
+      p = p.next;
+  }
+  if(s.split('').reverse().join('') === s) return true;
+  else return false;
+};
 
 /**
- * 单链表添加*/
+ * 两数之和*/
 
-function linkedList() {
-  let Node = function (element) {
-    this.element = element
-    this.next = null
-  }
-  let length = 0
-  let head = null
-
-  this.append = function (element) {
-    let node = new Node(element)
-    if (head == null) {
-      head = node
-    } else {
-      let current = head
-      while (current.next !== null) {
-        current = current.next
+ var addTwoNumbers = function(l1, l2) {
+     let dfs= function(l1,l2,carry){
+      if(!l1&&!l2&&carry==0){
+        return null
       }
-      current.next = node
-    }
-    length++
-  }
-}
+      let val1 = l1?l1.val:0
+      let val2 = l2?l2.val:0
+      let sum = val1+val2+carry
+      let node = new NodeList()
+
+      node.next = dfs(l1.next?l1.next:0,l2.next?l2.next:0,Math.floor(sum/10))
+      node = node.next
+      return node
+     }
+};
